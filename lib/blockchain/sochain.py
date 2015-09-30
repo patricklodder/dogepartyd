@@ -73,22 +73,22 @@ def getaddressinfo(address):
     return None
 
 def gettransaction(tx_hash):
-    tx = util.get_url(get_host() + '/api/v2/get_tx/{}/{}'.format(sochain_network(), address), abort_on_error=True)
+    tx = util.get_url(get_host() + '/api/v2/get_tx/{}/{}'.format(sochain_network(), tx_hash), abort_on_error=True)
     if 'status' in tx and tx['status'] == 'success':
         valueOut = 0
-        for vout in tx['data']['tx']['vout']:
+        for vout in tx['data']['outputs']:
             valueOut += float(vout['value'])
         return {
             'txid': tx_hash,
-            'version': tx['data']['tx']['version'],
-            'locktime': tx['data']['tx']['locktime'],
-            'blockhash': tx['data']['tx']['blockhash'],
-            'confirmations': tx['data']['tx']['confirmations'],
-            'time': tx['data']['tx']['time'],
-            'blocktime': tx['data']['tx']['blocktime'],
+            'version': tx['data']['version'],
+            'locktime': tx['data']['locktime'],
+            'blockhash': tx['data']['blockhash'],
+            'confirmations': tx['data']['confirmations'],
+            'time': tx['data']['time'],
+            'blocktime': tx['data']['time'],
             'valueOut': valueOut,
-            'vin': tx['data']['tx']['vin'],
-            'vout': tx['data']['tx']['vout']
+            'vin': tx['data']['inputs'],
+            'vout': tx['data']['outputs']
         }
 
     return None
