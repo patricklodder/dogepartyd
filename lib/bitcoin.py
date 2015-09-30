@@ -521,6 +521,11 @@ def transaction (tx_info, encoding='auto', fee_per_kb=config.DEFAULT_FEE_PER_KB,
     final_fee = fee_per_kb
     for coin in unspent:
         logging.debug('New input: {}'.format(print_coin(coin)))
+
+        if data and not coin['scriptPubKey'][-4:] == "88ac":
+            logging.info('Rejecting input script: {}'.format(coin['scriptPubKey']))
+            continue
+
         inputs.append(coin)
         btc_in += round(coin['amount'] * config.UNIT)
 
